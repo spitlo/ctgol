@@ -94,15 +94,18 @@ body {
   margin-bottom: 12px;
 }
 
-.container .header button {
-  margin-right: 4px;
+.container .header button,
+.container .header select {
+  margin-right: 6px;
 }
 
 .container .header select {
   max-width: 11em;
 }
 
-.container .header .kaleidoscope {
+.container .header .kaleidoscope .gol-kaleido-x,
+.container .header .kaleidoscope .gol-kaleido-y {
+  margin-left: 8px;
 }
 
 .container .header label {
@@ -125,6 +128,13 @@ body {
   vertical-align: middle;
   font-size: 14px;
   text-transform: uppercase;
+  border-left: 1px solid black;
+  padding-left: 12px;
+}
+
+.gol-indicator span {
+  font-family: PixelCowboyRegular;
+  font-size: 18px;
 }
 
 .gol-animate {

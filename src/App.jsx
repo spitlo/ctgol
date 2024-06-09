@@ -108,7 +108,7 @@ function App() {
             </For>
           </select>
           <span class="kaleidoscope">
-            Kaleidoscope:
+            <span>Kaleidoscope:</span>
             <label class="gol-kaleido-x">
               <input
                 type="checkbox"
@@ -130,17 +130,21 @@ function App() {
               Y
             </label>
           </span>
-          <label class="gol-evolve">
-            <input
-              type="checkbox"
-              checked={store.evolve}
-              onClick={() => {
-                setStore('evolve', !store.evolve)
-              }}
-            />
-            Evolve
-          </label>
-          <span class="gol-indicator">Generation: {store.generation}</span>
+          <div class="gol-evolve">
+            <label>
+              <input
+                type="checkbox"
+                checked={store.evolve}
+                onClick={() => {
+                  setStore('evolve', !store.evolve)
+                }}
+              />
+              Evolve
+            </label>
+            <span class="gol-indicator">
+              Generation: <span>{store.generation}</span>
+            </span>
+          </div>
         </div>
 
         <For each={store.tracks}>
@@ -193,15 +197,6 @@ function App() {
           <button onClick={actions.togglePlay}>
             {store.playing ? 'Stop' : 'Play'}
           </button>
-          <input
-            disabled
-            type="number"
-            value={store.bpm}
-            step="5"
-            onChange={(e) => {
-              actions.setBpm(e.target.value)
-            }}
-          />
           <button onClick={actions.reset}>Reset</button>
         </div>
 

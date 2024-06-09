@@ -8,9 +8,10 @@
 }
 
 h1 {
-  color: #779;
+  color: #6badbd;
   font-family: PixelCowboy;
   letter-spacing: 4px;
+  text-shadow: 2px 2px 0px #34545c;
 }
 
 code {
