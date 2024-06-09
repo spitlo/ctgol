@@ -21,25 +21,13 @@ body {
   letter-spacing: 1.5px;
 }
 
-@keyframes pulsate {
-  0% {
-    border-color: #80800044;
-  }
-  50% {
-    border-color: #ed872d44;
-  }
-  100% {
-    border-color: #80800044;
-  }
-}
-
 .color-0 {
   background-color: #e5f6ffdf;
   border-color: #a16e4ccf;
 }
 .color-1 {
   background-color: var(--color-3);
-  /*  animation: pulsate 8s infinite;*/
+  border-color: #80800044;
 }
 .color-2 {
   background-color: var(--color-2);

@@ -21,7 +21,14 @@ const Track = (props) => {
       </div>
       <div class={props.class}>
         {props.children}
-        <span class="track-letter">{sampleName}</span>
+        <span
+          class="track-letter"
+          onClick={() => {
+            actions.playSample(notes[track.id][0])
+          }}
+        >
+          {sampleName}
+        </span>
       </div>
     </>
   )

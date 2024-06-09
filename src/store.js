@@ -6,6 +6,7 @@ import patterns from './patterns'
 import {
   notes,
   sampler,
+  standaloneSampler,
   trackDelay,
   trackFilter,
   trackReverb,
@@ -185,26 +186,16 @@ const kaleidoProxy = (trackId, tickId, force) => {
 }
 
 const handleTickClick = (trackId, tickId, keys) => {
-  // toggleTick(trackId, tickId)
-
-  // Play sample (Does not work)
-  // if (!store.initiated) {
-  //   Tone.start()
-  // }
-  // if (notes[trackId]) {
-  //   const note = notes[trackId]
-  //   sampler.triggerAttackRelease(note, '4n')
-  // }
-
   // If META is pressed, only paint every other tick
   let stepSize = 1
   if (keys.includes('META')) {
     stepSize = 2
   }
 
-  // Now check if this is a line click
-
+  // Paint user’s original click
   kaleidoProxy(trackId, tickId)
+
+  // Now check if this is a line click
   if (keys.includes('ALT')) {
     // Horizontal line
     let togglePrev = true
@@ -287,11 +278,8 @@ const handleTickClick = (trackId, tickId, keys) => {
 const toggleMute = (trackId) => {
   setStore(
     produce((store) => {
-      console.log('A') /* eslint-disable-line */
       if (store.mutes.length >= trackId + 1) {
-        console.log('B', trackId) /* eslint-disable-line */
         store.mutes[trackId] = !untrack(() => store.mutes[trackId])
-        console.log(store.mutes) /* eslint-disable-line */
       }
       store.saved = false
     })
@@ -299,7 +287,7 @@ const toggleMute = (trackId) => {
 }
 
 const setBpm = (newBpm) => {
-  Tone.Transport.bpm.value = newBpm
+  Tone.getTransport().bpm.value = newBpm
   setStore(
     produce((store) => {
       store.bpm = newBpm
@@ -309,7 +297,7 @@ const setBpm = (newBpm) => {
 }
 
 const saveStore = () => {
-  Tone.Transport.stop()
+  Tone.getTransport().stop()
   const steps = new Array(store.steps.length).fill(0)
   setStore(
     produce((store) => {
@@ -324,14 +312,14 @@ const saveStore = () => {
   save()
 }
 
-const initAndPlay = () => {
+const initAndPlay = async () => {
   if (!store.initiated) {
-    Tone.start()
-    Tone.Transport.bpm.value = store.bpm
-    Tone.Transport.scheduleRepeat(loop, '16n')
+    await Tone.start()
+    Tone.getTransport().bpm.value = store.bpm
+    Tone.getTransport().scheduleRepeat(loop, '16n')
   }
 
-  Tone.Transport.start()
+  Tone.getTransport().start()
 
   setStore(
     produce((store) => {
@@ -345,7 +333,7 @@ const togglePlay = () => {
   if (!store.playing) {
     initAndPlay()
   } else {
-    Tone.Transport.pause()
+    Tone.getTransport().pause()
     setStore('playing', false)
   }
 }
@@ -395,8 +383,16 @@ const setPattern = (patternIndex) => {
 
 const printPattern = () => {
   for (let id = 0; id < INSTRUMENT_AMOUNT; id++) {
-    console.log(`${store.tracks[id].ticks}`) /* eslint-disable-line */
+    console.log(`${store.tracks[id].ticks}`)
   }
+}
+
+const playSample = async (note) => {
+  if (!store.initiated) {
+    await Tone.start()
+    setStore('initiated', true)
+  }
+  standaloneSampler.triggerAttackRelease(note, '4n')
 }
 
 const actions = {
@@ -404,6 +400,7 @@ const actions = {
   handleTickClick,
   initAndPlay,
   initContext,
+  playSample,
   printPattern,
   randomizeGrid,
   reset,

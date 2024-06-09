@@ -52,6 +52,8 @@ input[type='checkbox']:nth-of-type(8n + 1).color-0 {
 .track-letter {
   padding: 0 6px 2px 4px;
   color: #b97322;
+  cursor: pointer;
+  user-select: none;
 }
 
 .track:hover .track-letter {
