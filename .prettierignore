@@ -1,0 +1,5 @@
+build
+*.html
+public/css
+docs
+src/patterns.js

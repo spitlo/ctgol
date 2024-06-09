@@ -1,0 +1,33 @@
+.help {
+  margin-top: 20px;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  background-color: #ff38384d;
+  color: #779;
+  line-height: 28px;
+}
+
+h1 {
+  color: #779;
+  font-family: PixelCowboy;
+  letter-spacing: 4px;
+}
+
+code {
+  font-family: PixelCowboy;
+  background-color: #fff8dc;
+  line-height: 20px;
+  font-size: 12px;
+  padding: 1px 5px;
+  margin: 0 6px;
+}
+
+details {
+  text-transform: uppercase;
+  color: var(--pico-h2-color);
+}
+
+.warning {
+  background-color: rgba(200, 80, 80, 0.3);
+  padding: 1rem;
+}

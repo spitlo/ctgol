@@ -1,0 +1,29 @@
+{
+  "name": "ctgol",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "vite build --base=/ctgol/",
+    "format": "prettier . --write",
+    "serve": "yarn build && vite preview --base=/ctgol/",
+    "start": "vite",
+    "testbuild": "vite build --base=/ctgol/ --outDir=./tmp/testbuild"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "prettier": "3.3.1",
+    "solid-devtools": "^0.30.1",
+    "vite": "^5.2.13",
+    "vite-plugin-solid": "^2.10.2"
+  },
+  "dependencies": {
+    "@solid-primitives/clipboard": "^1.5.10",
+    "@solid-primitives/keyboard": "^1.2.8",
+    "lz-string": "^1.5.0",
+    "solid-js": "^1.8.11",
+    "tone": "^15.0.4"
+  }
+}

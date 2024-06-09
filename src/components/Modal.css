@@ -1,0 +1,21 @@
+.modal {
+  font-family: Menu;
+}
+
+.modal h1,
+.modal h2,
+.modal h3 {
+  color: #779;
+  font-family: Menu;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.modal code {
+  font-family: Menu;
+  font-size: 24px;
+}
+
+.modal button {
+  line-height: 1;
+}
