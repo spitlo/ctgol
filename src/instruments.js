@@ -1,11 +1,11 @@
 import {
   AutoFilter,
   Delay,
-  Destination,
   Filter,
   Player,
   Reverb,
   Sampler,
+  getDestination,
 } from 'tone'
 
 const SAMPLE_BASE_URL = './sounds/'
@@ -15,7 +15,7 @@ const destinationReverb = new Reverb({
   decay: 0.8,
   wet: 0.5,
 })
-Destination.chain(destinationReverb)
+getDestination().chain(destinationReverb)
 
 // Set up effects
 const trackFilter = new AutoFilter('4n').start()

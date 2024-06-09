@@ -126,7 +126,7 @@ const loop = (time) => {
         if (notes[trackId]) {
           const note = notes[trackId][0]
           sampler
-            .chain(getArrayElement(EFFECTS), Tone.Destination)
+            .chain(getArrayElement(EFFECTS), Tone.getDestination())
             .triggerAttackRelease(
               note,
               getArrayElement(DURATIONS),
