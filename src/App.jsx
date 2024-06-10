@@ -1,9 +1,10 @@
 import * as Tone from 'tone'
-import { createEffect, onCleanup, onMount, For, DEV } from 'solid-js'
+import { createEffect, onCleanup, onMount, For, DEV, Show } from 'solid-js'
 import { useKeyDownEvent, useKeyDownList } from '@solid-primitives/keyboard'
 import { writeClipboard } from '@solid-primitives/clipboard'
 
 import Help from './components/Help'
+import Spinner from './components/Spinner'
 import Track from './components/Track'
 import createModal from './components/Modal'
 import patterns from './patterns'
@@ -20,6 +21,9 @@ function App() {
     } else {
       actions.randomizeGrid()
     }
+
+    await Tone.loaded()
+    setStore('loading', false)
   }
 
   const cleanup = () => {
@@ -194,7 +198,7 @@ function App() {
           >
             Save
           </button>
-          <button onClick={actions.togglePlay}>
+          <button onClick={actions.togglePlay} disabled={store.loading}>
             {store.playing ? 'Stop' : 'Play'}
           </button>
           <button onClick={actions.reset}>Reset</button>
@@ -203,6 +207,10 @@ function App() {
         <div></div>
         <Help />
       </div>
+
+      <Show when={store.loading}>
+        <Spinner class="spinner loading" />
+      </Show>
 
       <SaveModal
         title="Saved!"

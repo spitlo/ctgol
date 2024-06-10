@@ -32,8 +32,8 @@ const lopassFilter = new Filter({
 
 const notes = [
   ['A3', 'Hit'],
-  ['B3', 'Hit'],
   ['C3', 'Bass hit'],
+  ['B3', 'Hit'],
   ['E3', '"Hello"'],
   ['D3', 'Kick hit'],
   ['F3', 'Short hit'],
@@ -42,8 +42,8 @@ const notes = [
   ['C4', 'Hit'],
   ['B4', 'Snare 2'],
   ['D4', 'Guit chrd'],
-  ['E4', 'Guit strm'],
   ['F4', 'Synth hit'],
+  ['E4', 'Guit strm'],
   ['G4', 'Guit slide'],
   ['A5', 'Hit'],
   ['B6', 'Guit notes'],
@@ -60,6 +60,7 @@ const notes = [
 ]
 
 const urls = {
+  C2: 'drums.mp3', // This is the drum loop running in the background
   A3: 'sampleA.mp3', // Hit
   B3: 'sampleB.mp3', // Hit
   C3: 'sampleC.mp3', // Bass hit

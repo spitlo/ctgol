@@ -1,0 +1,9 @@
+.spinner {
+  color: var(--color-8);
+}
+
+.spinner.loading {
+  top: 10px;
+  right: 10px;
+  position: fixed;
+}

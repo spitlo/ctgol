@@ -3,6 +3,7 @@ import { createEffect, untrack } from 'solid-js'
 import { createStore, produce, unwrap } from 'solid-js/store'
 
 import patterns from './patterns'
+import { load, save, stash, storage } from './storage'
 import {
   notes,
   sampler,
@@ -11,7 +12,6 @@ import {
   trackFilter,
   trackReverb,
 } from './instruments'
-import { load, save, stash, storage } from './storage'
 import {
   getArrayElement,
   getRandomInt,
@@ -47,6 +47,7 @@ const [store, setStore] = createStore({
   evolve: true,
   generation: 0,
   initiated: false,
+  loading: true,
   kaleidoX: false,
   kaleidoY: false,
   mutes: new Array(INSTRUMENT_AMOUNT).fill(false),
@@ -84,31 +85,30 @@ function countActiveNeighbours(x, y) {
 
 const checkCells = () => {
   let activeNeighbours
-  for (let cx = 0; cx < INSTRUMENT_AMOUNT; cx++) {
-    for (let cy = 0; cy < TRACK_LENGTH; cy++) {
-      activeNeighbours = countActiveNeighbours(cx, cy)
+  for (let gx = 0; gx < INSTRUMENT_AMOUNT; gx++) {
+    for (let gy = 0; gy < TRACK_LENGTH; gy++) {
+      activeNeighbours = countActiveNeighbours(gx, gy)
 
       if (activeNeighbours < 2) {
         // Any live cell with fewer than two live neighbours dies, as if caused by under-population
-        nextTracks[cx].ticks[cy] = 0
+        nextTracks[gx].ticks[gy] = 0
       } else if (
         (activeNeighbours === 2 || activeNeighbours === 3) &&
-        isActive(cx, cy)
+        isActive(gx, gy)
       ) {
         // Any live cell with two or three live neighbours lives on to the next generation.
-        nextTracks[cx].ticks[cy] = 1
-      } else if (activeNeighbours > 3 && isActive(cx, cy)) {
+        nextTracks[gx].ticks[gy] = 1
+      } else if (activeNeighbours > 3 && isActive(gx, gy)) {
         // Any live cell with more than three live neighbours dies, as if by overcrowding
-        nextTracks[cx].ticks[cy] = 0
-      } else if (activeNeighbours === 3 && !isActive(cx, cy)) {
+        nextTracks[gx].ticks[gy] = 0
+      } else if (activeNeighbours === 3 && !isActive(gx, gy)) {
         // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction
-        nextTracks[cx].ticks[cy] = 1
+        nextTracks[gx].ticks[gy] = 1
       }
     }
   }
 
   // Now make the new frame active
-  // setStore('tracks', structuredClone(nextTracks))
   setStore(
     produce((str) => {
       str.tracks = structuredClone(nextTracks)
@@ -137,17 +137,24 @@ const loop = (time) => {
       }
     }
 
+    // Update step indicator
     Tone.Draw.schedule(() => {
       const steps = store.steps
       setStore('steps', trackId, step)
     }, time)
   }
 
-  Tone.Draw.schedule(() => {
-    if (store.evolve && (index + 3) % 4 === 0) {
+  // Loop drums
+  if (index % 4 === 0) {
+    sampler.triggerAttackRelease('C2', '2n', time, 1)
+  }
+
+  // Evolve grid
+  if (store.evolve && index % 4 === 0) {
+    Tone.Draw.schedule(() => {
       checkCells()
-    }
-  }, time)
+    }, time)
+  }
 
   index++
 }
@@ -302,6 +309,7 @@ const saveStore = () => {
   setStore(
     produce((store) => {
       store.initiated = false
+      store.loading = true
       store.playing = false
       store.saved = true
       store.steps = steps
@@ -347,9 +355,9 @@ const reset = () => {
 }
 
 const randomizeGrid = (chance = 0.8) => {
-  for (let cx = 0; cx < INSTRUMENT_AMOUNT; cx++) {
-    for (let cy = 0; cy < TRACK_LENGTH; cy++) {
-      nextTracks[cx].ticks[cy] = Math.random() < chance ? 0 : 1
+  for (let gx = 0; gx < INSTRUMENT_AMOUNT; gx++) {
+    for (let gy = 0; gy < TRACK_LENGTH; gy++) {
+      nextTracks[gx].ticks[gy] = Math.random() < chance ? 0 : 1
     }
   }
 
@@ -357,9 +365,9 @@ const randomizeGrid = (chance = 0.8) => {
 }
 
 const clearGrid = () => {
-  for (let cx = 0; cx < INSTRUMENT_AMOUNT; cx++) {
-    for (let cy = 0; cy < TRACK_LENGTH; cy++) {
-      nextTracks[cx].ticks[cy] = 0
+  for (let gx = 0; gx < INSTRUMENT_AMOUNT; gx++) {
+    for (let gy = 0; gy < TRACK_LENGTH; gy++) {
+      nextTracks[gx].ticks[gy] = 0
     }
   }
 

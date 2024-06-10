@@ -42,6 +42,10 @@ const Help = () => {
         Conway Twitty’s Game of Live is an experiment in sequencing. It’s an
         evolving step sequencer that follows the rules of Conway’s Game of Life.
       </p>
+      <p>
+        To help you feel the groove of these seemingly random hits of Conway
+        Twitty samples, an 84 BPM drum pattern is looping in the background.
+      </p>
 
       <hr />
 
@@ -154,21 +158,31 @@ const Help = () => {
         </p>
         <p>
           Fonts: <br />
-          Pixel Cowboy by
+          Pixel Cowboy by{' '}
           <a
             href="https://wwww.sauce.nl"
             target="_blank"
             rel="noopener noreferrer"
           >
             Bruno Herfst
-          </a>
-          and Pixel Cowboy Regular by
+          </a>{' '}
+          and Pixel Cowboy Regular by{' '}
           <a
             href="http://www.pixelsagas.com/"
             target="_blank"
             rel="noopener noreferrer"
           >
             Pixel Sagas
+          </a>
+        </p>
+        <p>
+          Drum loop by{' '}
+          <a
+            href="https://freesound.org/people/johntrap/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            johntrap
           </a>
         </p>
         <p>
