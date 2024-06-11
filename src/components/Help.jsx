@@ -109,6 +109,14 @@ const Help = () => {
             as if by reproduction.
           </li>
         </ol>
+
+        <p>
+          Some shapes have special properties. For example, a square made up of
+          four ticks will not change and not die, as long as no other shape
+          collides with it. And a line made up of three ticks will oscillate
+          between horizontal or vertical. For some inspiration, check out the
+          patterns "Beat 1", "Beat 2", "Survivors" and "Spaceships".
+        </p>
       </details>
 
       <hr />
@@ -132,8 +140,8 @@ const Help = () => {
         <summary>How do I stop this thing?!?</summary>
         <p>
           I’m trying to get Tone.js’ start/stop mechanism functioning reliably,
-          but I’ve not had any success so far. Until I get it to work reliably
-          and consistently, I don’t want to put a STOP button in the UI at all.
+          but I’ve not had any success so far. Stop seems to work, buy starting
+          again doesn’t alays.
         </p>
         <p>
           For now, do what I do: Save, then reload you browser. This also
