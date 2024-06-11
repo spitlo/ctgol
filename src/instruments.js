@@ -8,6 +8,8 @@ import {
   getDestination,
 } from 'tone'
 
+import { getArrayElement } from './utils'
+
 const SAMPLE_BASE_URL = './sounds/'
 
 // Add reverb to master channel
@@ -18,17 +20,21 @@ const destinationReverb = new Reverb({
 getDestination().chain(destinationReverb)
 
 // Set up effects
-const trackFilter = new AutoFilter('4n').start()
 const trackDelay = new Delay(0.01)
+const trackFilter = new AutoFilter({
+  frequency: '4n',
+  wet: 0.5,
+}).start()
 const trackReverb = new Reverb({
   decay: 0.3,
   wet: 0.8,
 })
-
-// Low pass filter
 const lopassFilter = new Filter({
-  frequency: 18000,
+  frequency: 3200,
+  wet: 0.5,
 })
+
+const EFFECTS = [trackDelay, trackFilter, trackReverb, lopassFilter]
 
 const notes = [
   ['A3', 'Hit'],
@@ -92,7 +98,9 @@ const urls = {
 const sampler = new Sampler({
   urls,
   baseUrl: SAMPLE_BASE_URL,
-}).sync()
+})
+  .sync()
+  .chain(getArrayElement(EFFECTS), getDestination())
 
 const standaloneSampler = new Sampler({
   urls,

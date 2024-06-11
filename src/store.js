@@ -21,7 +21,6 @@ import {
 
 const INSTRUMENT_AMOUNT = notes.length
 const TRACK_LENGTH = 32
-const EFFECTS = [trackDelay, trackFilter, trackReverb]
 const VELOCITIES = [0.2, 0.4, 0.6, 0.7, 0.8, 0.9, 1]
 const DURATIONS = ['4n', '4n', '4n', '8n', '16n', '32n']
 
@@ -85,30 +84,30 @@ function countActiveNeighbours(x, y) {
 
 const checkCells = () => {
   let activeNeighbours
-  for (let gx = 0; gx < INSTRUMENT_AMOUNT; gx++) {
-    for (let gy = 0; gy < TRACK_LENGTH; gy++) {
-      activeNeighbours = countActiveNeighbours(gx, gy)
+  for (let gy = 0; gy < INSTRUMENT_AMOUNT; gy++) {
+    for (let gx = 0; gx < TRACK_LENGTH; gx++) {
+      activeNeighbours = countActiveNeighbours(gy, gx)
 
       if (activeNeighbours < 2) {
         // Any live cell with fewer than two live neighbours dies, as if caused by under-population
-        nextTracks[gx].ticks[gy] = 0
+        nextTracks[gy].ticks[gx] = 0
       } else if (
         (activeNeighbours === 2 || activeNeighbours === 3) &&
-        isActive(gx, gy)
+        isActive(gy, gx)
       ) {
         // Any live cell with two or three live neighbours lives on to the next generation.
-        nextTracks[gx].ticks[gy] = 1
-      } else if (activeNeighbours > 3 && isActive(gx, gy)) {
+        nextTracks[gy].ticks[gx] = 1
+      } else if (activeNeighbours > 3 && isActive(gy, gx)) {
         // Any live cell with more than three live neighbours dies, as if by overcrowding
-        nextTracks[gx].ticks[gy] = 0
-      } else if (activeNeighbours === 3 && !isActive(gx, gy)) {
+        nextTracks[gy].ticks[gx] = 0
+      } else if (activeNeighbours === 3 && !isActive(gy, gx)) {
         // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction
-        nextTracks[gx].ticks[gy] = 1
+        nextTracks[gy].ticks[gx] = 1
       }
     }
   }
 
-  // Now make the new frame active
+  // Evolve!
   setStore(
     produce((str) => {
       str.tracks = structuredClone(nextTracks)
@@ -125,14 +124,12 @@ const loop = (time) => {
       if (currentTrack.ticks[step]) {
         if (notes[trackId]) {
           const note = notes[trackId][0]
-          sampler
-            .chain(getArrayElement(EFFECTS), Tone.getDestination())
-            .triggerAttackRelease(
-              note,
-              getArrayElement(DURATIONS),
-              time,
-              getArrayElement(VELOCITIES)
-            )
+          sampler.triggerAttackRelease(
+            note,
+            getArrayElement(DURATIONS),
+            time,
+            getArrayElement(VELOCITIES)
+          )
         }
       }
     }
@@ -293,16 +290,6 @@ const toggleMute = (trackId) => {
   )
 }
 
-const setBpm = (newBpm) => {
-  Tone.getTransport().bpm.value = newBpm
-  setStore(
-    produce((store) => {
-      store.bpm = newBpm
-      store.saved = false
-    })
-  )
-}
-
 const saveStore = () => {
   Tone.getTransport().stop()
   const steps = new Array(store.steps.length).fill(0)
@@ -346,18 +333,14 @@ const togglePlay = () => {
   }
 }
 
-const setColorScheme = (scheme) => {
-  setStore('colorScheme', scheme)
-}
-
 const reset = () => {
   location.href = '.'
 }
 
 const randomizeGrid = (chance = 0.8) => {
-  for (let gx = 0; gx < INSTRUMENT_AMOUNT; gx++) {
-    for (let gy = 0; gy < TRACK_LENGTH; gy++) {
-      nextTracks[gx].ticks[gy] = Math.random() < chance ? 0 : 1
+  for (let gy = 0; gy < INSTRUMENT_AMOUNT; gy++) {
+    for (let gx = 0; gx < TRACK_LENGTH; gx++) {
+      nextTracks[gy].ticks[gx] = Math.random() < chance ? 0 : 1
     }
   }
 
@@ -365,12 +348,11 @@ const randomizeGrid = (chance = 0.8) => {
 }
 
 const clearGrid = () => {
-  for (let gx = 0; gx < INSTRUMENT_AMOUNT; gx++) {
-    for (let gy = 0; gy < TRACK_LENGTH; gy++) {
-      nextTracks[gx].ticks[gy] = 0
+  for (let gy = 0; gy < INSTRUMENT_AMOUNT; gy++) {
+    for (let gx = 0; gx < TRACK_LENGTH; gx++) {
+      nextTracks[gy].ticks[gx] = 0
     }
   }
-
   setStore('tracks', structuredClone(nextTracks))
 }
 
@@ -378,6 +360,7 @@ const setPattern = (patternIndex) => {
   if (patternIndex < 0) {
     return
   }
+  clearGrid()
   const { pattern } = patterns[patternIndex]
   const tracks = []
   for (let id = 0; id < INSTRUMENT_AMOUNT; id++) {
@@ -413,8 +396,6 @@ const actions = {
   randomizeGrid,
   reset,
   saveStore,
-  setBpm,
-  setColorScheme,
   setPattern,
   toggleMute,
   togglePlay,

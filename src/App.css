@@ -91,6 +91,10 @@ body {
   max-width: 11em;
 }
 
+.container .header .kaleidoscope {
+  margin-left: 4px;
+}
+
 .container .header .kaleidoscope .gol-kaleido-x,
 .container .header .kaleidoscope .gol-kaleido-y {
   margin-left: 8px;
