@@ -202,7 +202,7 @@ i.emoticon {
   display: inline-block;
   height: 20px;
   image-rendering: pixelated;
-  margin: 0 2px;
+  margin: 1px 2px;
   vertical-align: text-bottom;
   width: 14px;
 }
@@ -229,7 +229,7 @@ i.emoticon.sad {
 
 /* U+1F615 */
 i.emoticon.confusion {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKBAMAAACK4lk+AAAAGFBMVEUAAAAAAAA7GQD/kAD/tQD/2Wb/3Vz/5YZ6/qKgAAAAAXRSTlMAQObYZgAAADNJREFUCNdjYA0NZWAILy83YAhPSzFgEBQUFGAIFBOEcoPSkoAsJRUDhhAXFwMGZmNjBgDzKgk+mt1tSgAAAABJRU5ErkJggg==);
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKBAMAAACK4lk+AAAAFVBMVEUAAAA7GQD/kAD/tQD/2Wb/3Vz/5YY+yL4uAAAAAXRSTlMAQObYZgAAACtJREFUCNdjYHFxYWBwS0tTYHATFYYRocEwQlBQgcERxHI2NlZgYFJSYgAAxyIHly6eqqsAAAAASUVORK5CYII=');
 }
 
 /* U+1F631 */
