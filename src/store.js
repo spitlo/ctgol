@@ -82,9 +82,9 @@ function countActiveNeighbours(x, y) {
   return activeNeighbours
 }
 
-const checkCells = () => {
+const checkCells = (startRow, endRow, evolve) => {
   let activeNeighbours
-  for (let gy = 0; gy < INSTRUMENT_AMOUNT; gy++) {
+  for (let gy = startRow; gy < endRow; gy++) {
     for (let gx = 0; gx < TRACK_LENGTH; gx++) {
       activeNeighbours = countActiveNeighbours(gy, gx)
 
@@ -108,12 +108,14 @@ const checkCells = () => {
   }
 
   // Evolve!
-  setStore(
-    produce((str) => {
-      str.tracks = structuredClone(nextTracks)
-      str.generation = store.generation + 1
-    })
-  )
+  if (evolve) {
+    setStore(
+      produce((str) => {
+        str.tracks = structuredClone(nextTracks)
+        str.generation = store.generation + 1
+      })
+    )
+  }
 }
 
 const loop = (time) => {
@@ -146,11 +148,35 @@ const loop = (time) => {
     sampler.triggerAttackRelease('C2', '2n', time, 1)
   }
 
-  // Evolve grid
-  if (store.evolve && index % 4 === 0) {
-    Tone.Draw.schedule(() => {
-      checkCells()
-    }, time)
+  // Evolve grid. We do this in steps to spread the work a bit
+  if (store.evolve) {
+    if (index % 4 === 0) {
+      Tone.Draw.schedule(() => {
+        checkCells(0, Math.floor(INSTRUMENT_AMOUNT / 4))
+      }, time)
+    } else if (index % 4 === 1) {
+      Tone.Draw.schedule(() => {
+        checkCells(
+          Math.ceil(INSTRUMENT_AMOUNT / 4),
+          Math.floor(INSTRUMENT_AMOUNT / 2)
+        )
+      }, time)
+    } else if (index % 4 === 2) {
+      Tone.Draw.schedule(() => {
+        checkCells(
+          Math.ceil(INSTRUMENT_AMOUNT / 2),
+          Math.floor(INSTRUMENT_AMOUNT / 4) * 3
+        )
+      }, time)
+    } else if (index % 4 === 3) {
+      Tone.Draw.schedule(() => {
+        checkCells(
+          Math.ceil(INSTRUMENT_AMOUNT / 4) * 3,
+          INSTRUMENT_AMOUNT,
+          true
+        )
+      }, time)
+    }
   }
 
   index++
