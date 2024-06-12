@@ -114,9 +114,9 @@ const Help = () => {
           Some shapes have special properties. For example, a square made up of
           four ticks will not change and not die, as long as no other shape
           collides with it. And a line made up of three ticks will oscillate
-          between horizontal or vertical. For some inspiration, check out the
-          patterns "Beat 1", "Beat 2", "Survivors" and "Spaceships".{' '}
-          <i class="emoticon elims" />
+          between horizontal or vertical. For some inspiration and more
+          examples, check out the patterns "Beat 1", "Beat 2", "Survivors" and
+          "Spaceships". <i class="emoticon elims" />
         </p>
       </details>
 
@@ -141,8 +141,8 @@ const Help = () => {
         <summary>How do I stop this thing?!?</summary>
         <p>
           I’m trying to get Tone.js’ start/stop mechanism functioning reliably,
-          but I’ve not had any success so far. Stop seems to work, but starting
-          again doesn’t always. <i class="emoticon confusion" />
+          but I’ve not had any success so far. Stopping seems to work, but
+          starting again doesn’t always. <i class="emoticon confusion" />
         </p>
         <p>
           For now, do what I do: Save, then reload you browser. This also

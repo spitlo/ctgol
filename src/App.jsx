@@ -146,8 +146,23 @@ function App() {
               Evolve
             </label>
             <span class="gol-indicator">
-              Generation: <span>{store.generation}</span>
+              Generation: <div>{store.generation}</div>
             </span>
+          </div>
+          <div class="drumloop">
+            <label class="gol-kaleido-x">
+              <input
+                type="checkbox"
+                checked={store.drumloop}
+                onClick={() => {
+                  setStore('drumloop', !store.drumloop)
+                  if (!store.drumloop) {
+                    actions.stopDrums()
+                  }
+                }}
+              />
+              Enable drum loop
+            </label>
           </div>
         </div>
 

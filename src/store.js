@@ -43,6 +43,7 @@ const nextTracks = structuredClone(tracks)
 const [store, setStore] = createStore({
   bpm: 42,
   createdWith: version,
+  drumloop: true,
   evolve: true,
   generation: 0,
   initiated: false,
@@ -82,9 +83,9 @@ function countActiveNeighbours(x, y) {
   return activeNeighbours
 }
 
-const checkCells = (startRow, endRow, evolve) => {
+const checkCells = () => {
   let activeNeighbours
-  for (let gy = startRow; gy < endRow; gy++) {
+  for (let gy = 0; gy < INSTRUMENT_AMOUNT; gy++) {
     for (let gx = 0; gx < TRACK_LENGTH; gx++) {
       activeNeighbours = countActiveNeighbours(gy, gx)
 
@@ -108,14 +109,12 @@ const checkCells = (startRow, endRow, evolve) => {
   }
 
   // Evolve!
-  if (evolve) {
-    setStore(
-      produce((str) => {
-        str.tracks = structuredClone(nextTracks)
-        str.generation = store.generation + 1
-      })
-    )
-  }
+  setStore(
+    produce((str) => {
+      str.tracks = structuredClone(nextTracks)
+      str.generation = store.generation + 1
+    })
+  )
 }
 
 const loop = (time) => {
@@ -144,39 +143,15 @@ const loop = (time) => {
   }
 
   // Loop drums
-  if (index % 4 === 0) {
+  if (store.drumloop && index % 8 === 0) {
     sampler.triggerAttackRelease('C2', '2n', time, 1)
   }
 
-  // Evolve grid. We do this in steps to spread the work a bit
-  if (store.evolve) {
-    if (index % 4 === 0) {
-      Tone.Draw.schedule(() => {
-        checkCells(0, Math.floor(INSTRUMENT_AMOUNT / 4))
-      }, time)
-    } else if (index % 4 === 1) {
-      Tone.Draw.schedule(() => {
-        checkCells(
-          Math.ceil(INSTRUMENT_AMOUNT / 4),
-          Math.floor(INSTRUMENT_AMOUNT / 2)
-        )
-      }, time)
-    } else if (index % 4 === 2) {
-      Tone.Draw.schedule(() => {
-        checkCells(
-          Math.ceil(INSTRUMENT_AMOUNT / 2),
-          Math.floor(INSTRUMENT_AMOUNT / 4) * 3
-        )
-      }, time)
-    } else if (index % 4 === 3) {
-      Tone.Draw.schedule(() => {
-        checkCells(
-          Math.ceil(INSTRUMENT_AMOUNT / 4) * 3,
-          INSTRUMENT_AMOUNT,
-          true
-        )
-      }, time)
-    }
+  // Evolve grid
+  if (store.evolve && index % 4 === 0) {
+    Tone.Draw.schedule(() => {
+      checkCells()
+    }, time)
   }
 
   index++
@@ -350,11 +325,16 @@ const initAndPlay = async () => {
   )
 }
 
+const stopDrums = () => {
+  sampler.triggerRelease('C2', Tone.now())
+}
+
 const togglePlay = () => {
   if (!store.playing) {
     initAndPlay()
   } else {
     Tone.getTransport().pause()
+    stopDrums()
     setStore('playing', false)
   }
 }
@@ -423,6 +403,7 @@ const actions = {
   reset,
   saveStore,
   setPattern,
+  stopDrums,
   toggleMute,
   togglePlay,
 }

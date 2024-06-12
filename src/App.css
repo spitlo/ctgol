@@ -113,6 +113,10 @@ body {
   vertical-align: bottom;
 }
 
+.gol-evolve {
+  display: inline-block;
+}
+
 .gol-indicator {
   font-family: PixelCowboy;
   display: inline-block;
@@ -124,13 +128,17 @@ body {
   padding-left: 12px;
 }
 
-.gol-indicator span {
+.gol-indicator div {
   font-family: PixelCowboyRegular;
+  display: inline-block;
   font-size: 18px;
+  min-width: 40px;
 }
 
-.gol-animate {
+.drumloop {
   display: inline-block;
+  /*  border-left: 1px solid black;*/
+  padding-left: 1em;
   margin-left: 0.8rem;
   vertical-align: bottom;
 }
