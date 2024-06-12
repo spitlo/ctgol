@@ -77,6 +77,16 @@ body {
     max-width: 1010px;
   }
 }
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1060px !important;
+  }
+}
+@media (min-width: 1540px) {
+  .container {
+    max-width: 1260px !important;
+  }
+}
 
 .container .header {
   margin-bottom: 12px;
@@ -111,10 +121,6 @@ body {
 .container .header button.gol {
   margin-left: 0.8rem;
   vertical-align: bottom;
-}
-
-.gol-evolve {
-  display: inline-block;
 }
 
 .gol-indicator {

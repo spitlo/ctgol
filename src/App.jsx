@@ -134,35 +134,37 @@ function App() {
               Y
             </label>
           </span>
-          <div class="gol-evolve">
-            <label>
-              <input
-                type="checkbox"
-                checked={store.evolve}
-                onClick={() => {
-                  setStore('evolve', !store.evolve)
-                }}
-              />
-              Evolve
-            </label>
-            <span class="gol-indicator">
-              Generation: <div>{store.generation}</div>
+          <div>
+            <span class="gol-evolve">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={store.evolve}
+                  onClick={() => {
+                    setStore('evolve', !store.evolve)
+                  }}
+                />
+                Evolve
+              </label>
+              <span class="gol-indicator">
+                Generation: <div>{store.generation}</div>
+              </span>
             </span>
-          </div>
-          <div class="drumloop">
-            <label class="gol-kaleido-x">
-              <input
-                type="checkbox"
-                checked={store.drumloop}
-                onClick={() => {
-                  setStore('drumloop', !store.drumloop)
-                  if (!store.drumloop) {
-                    actions.stopDrums()
-                  }
-                }}
-              />
-              Enable drum loop
-            </label>
+            <span class="drumloop">
+              <label class="gol-kaleido-x">
+                <input
+                  type="checkbox"
+                  checked={store.drumloop}
+                  onClick={() => {
+                    setStore('drumloop', !store.drumloop)
+                    if (!store.drumloop) {
+                      actions.stopDrums()
+                    }
+                  }}
+                />
+                Enable drum loop
+              </label>
+            </span>
           </div>
         </div>
 

@@ -13,6 +13,7 @@ Conway Twitty’s Game of Live is some sort of sibling to [Space](https://spitlo
 ## To do
 
 - [ ] Styling
+- [x] Make sure grid doesn’t resize after 1280 pixels
 - [ ] Add [Conway Twitty](https://www.npmjs.com/package/conway_twitty)?
 
 ## Sources
