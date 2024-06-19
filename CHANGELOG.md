@@ -2,6 +2,10 @@
 
 This changelog is automatically generated.
 
+## v0.0.7
+
+- Try spreading computation again [`6ca530f`](../../commit/6ca530f80f167b2c02381394a8edae8ec490f116)
+
 ## v0.0.6
 
 - Make sure grid doesn’t resize after 1280 pixels [`7c8c09e`](../../commit/7c8c09ee1542a7659d36da44a8f42e9a373a3e8b)
