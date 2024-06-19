@@ -62,7 +62,7 @@ const initContext = () => {
 }
 
 const isActive = (x, y) => {
-  if (store.tracks && store.tracks[x] && store.tracks[x].ticks[y]) {
+  if (store.tracks && store.tracks[y] && store.tracks[y].ticks[x]) {
     return true
   } else {
     return false
@@ -83,25 +83,25 @@ function countActiveNeighbours(x, y) {
   return activeNeighbours
 }
 
-const checkCells = () => {
+const checkCells = (startRow, endRow, evolve) => {
   let activeNeighbours
-  for (let gy = 0; gy < INSTRUMENT_AMOUNT; gy++) {
+  for (let gy = startRow; gy < endRow; gy++) {
     for (let gx = 0; gx < TRACK_LENGTH; gx++) {
-      activeNeighbours = countActiveNeighbours(gy, gx)
+      activeNeighbours = countActiveNeighbours(gx, gy)
 
       if (activeNeighbours < 2) {
         // Any live cell with fewer than two live neighbours dies, as if caused by under-population
         nextTracks[gy].ticks[gx] = 0
       } else if (
         (activeNeighbours === 2 || activeNeighbours === 3) &&
-        isActive(gy, gx)
+        isActive(gx, gy)
       ) {
         // Any live cell with two or three live neighbours lives on to the next generation.
         nextTracks[gy].ticks[gx] = 1
-      } else if (activeNeighbours > 3 && isActive(gy, gx)) {
+      } else if (activeNeighbours > 3 && isActive(gx, gy)) {
         // Any live cell with more than three live neighbours dies, as if by overcrowding
         nextTracks[gy].ticks[gx] = 0
-      } else if (activeNeighbours === 3 && !isActive(gy, gx)) {
+      } else if (activeNeighbours === 3 && !isActive(gx, gy)) {
         // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction
         nextTracks[gy].ticks[gx] = 1
       }
@@ -109,12 +109,14 @@ const checkCells = () => {
   }
 
   // Evolve!
-  setStore(
-    produce((str) => {
-      str.tracks = structuredClone(nextTracks)
-      str.generation = store.generation + 1
-    })
-  )
+  if (evolve) {
+    setStore(
+      produce((str) => {
+        str.tracks = structuredClone(nextTracks)
+        str.generation = store.generation + 1
+      })
+    )
+  }
 }
 
 const loop = (time) => {
@@ -147,11 +149,41 @@ const loop = (time) => {
     sampler.triggerAttackRelease('C2', '2n', time, 1)
   }
 
-  // Evolve grid
-  if (store.evolve && index % 4 === 0) {
-    Tone.Draw.schedule(() => {
-      checkCells()
-    }, time)
+  // Evolve grid. We do this in steps to spread the work a bit
+  if (store.evolve) {
+    if (index % 4 === 0) {
+      Tone.Draw.schedule(() => {
+        checkCells(0, 6)
+      }, time)
+    } else if (index % 4 === 1) {
+      Tone.Draw.schedule(() => {
+        checkCells(
+          // Math.ceil(INSTRUMENT_AMOUNT / 4),
+          // Math.floor(INSTRUMENT_AMOUNT / 2)
+          6,
+          13
+        )
+      }, time)
+    } else if (index % 4 === 2) {
+      Tone.Draw.schedule(() => {
+        checkCells(
+          // Math.floor(INSTRUMENT_AMOUNT / 2),
+          // Math.floor(INSTRUMENT_AMOUNT / 4) * 3
+          13,
+          20
+        )
+      }, time)
+    } else if (index % 4 === 3) {
+      Tone.Draw.schedule(() => {
+        checkCells(
+          // Math.ceil(INSTRUMENT_AMOUNT / 4) * 3,
+          // INSTRUMENT_AMOUNT,
+          20,
+          26,
+          true
+        )
+      }, time)
+    }
   }
 
   index++
