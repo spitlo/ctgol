@@ -2,6 +2,10 @@
 
 This changelog is automatically generated.
 
+## v0.0.8
+
+- Spelling [`85304a3`](../../commit/85304a32820aa8aed0d7101cf893ca9f4a33cab1)
+
 ## v0.0.7
 
 - Try spreading computation again [`6ca530f`](../../commit/6ca530f80f167b2c02381394a8edae8ec490f116)
