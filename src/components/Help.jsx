@@ -39,7 +39,7 @@ const Help = () => {
     <div class="help">
       <h1>Help!</h1>
       <p>
-        Conway Twitty’s Game of Live is an experiment in sequencing. It’s an
+        Conway Twitty’s Game of Life is an experiment in sequencing. It’s an
         evolving step sequencer that follows the rules of Conway’s Game of Life.
       </p>
       <p>
