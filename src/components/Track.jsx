@@ -4,17 +4,17 @@ import { actions } from '../store'
 import './Track.css'
 
 const Track = (props) => {
-  const { track } = props
+  const { track, trackIndex } = props
 
-  const trackLetter = String.fromCharCode(track.id + 97)
-  const sampleName = notes[track.id][1]
+  const trackLetter = String.fromCharCode(trackIndex + 97)
+  const sampleName = notes[trackIndex][1]
 
   return (
     <>
       <div
         class="track-info"
         onClick={() => {
-          actions.toggleMute(track.id)
+          actions.toggleMute(trackIndex)
         }}
       >
         <span>{trackLetter}</span>
@@ -24,7 +24,7 @@ const Track = (props) => {
         <span
           class="track-letter"
           onClick={() => {
-            actions.playSample(notes[track.id][0])
+            actions.playSample(notes[trackIndex][0])
           }}
         >
           {sampleName}

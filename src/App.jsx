@@ -170,13 +170,13 @@ function App() {
 
         <For each={store.tracks}>
           {(track, trackIndex) => {
-            const { id, ticks } = track
             return (
               <Track
                 class={`track ${store.mutes[trackIndex()] ? 'muted' : 'unmuted'}`}
                 track={track}
+                trackIndex={trackIndex()}
               >
-                <For each={ticks}>
+                <For each={track}>
                   {(tick, tickIndex) => {
                     return (
                       <input
@@ -184,7 +184,7 @@ function App() {
                         checked={tick}
                         onChange={() => {
                           actions.handleTickClick(
-                            track.id,
+                            trackIndex(),
                             tickIndex(),
                             kdList()
                           )
