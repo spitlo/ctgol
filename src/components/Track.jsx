@@ -7,7 +7,7 @@ const Track = (props) => {
   const { track, trackIndex } = props
 
   const trackLetter = String.fromCharCode(trackIndex + 97)
-  const sampleName = notes[trackIndex][1]
+  const sampleName = trackIndex > -1 ? notes[trackIndex][1] : 'Step'
 
   return (
     <>

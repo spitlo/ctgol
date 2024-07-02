@@ -22,11 +22,11 @@
   content: '';
   position: absolute;
   top: 0;
-  left: 25%;
-  border-bottom: 2px solid var(--pico-primary);
+  left: 15%;
+  border-bottom: 2px solid #000;
   height: 54%;
-  width: 60%;
-  transform: rotateZ(-5deg);
+  width: 56%;
+  transform: rotateZ(-8deg);
 }
 
 .track input[type='checkbox'] {
@@ -58,4 +58,22 @@ input[type='checkbox']:nth-of-type(8n + 1).color-0 {
 
 .track:hover .track-letter {
   background-color: #b0e5ffe0;
+}
+
+.track.step-indicator {
+  --pico-icon-checkbox: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' %3E %3Ccircle r='8' cx='12' cy='12' fill='white'%3E %3C/circle%3E %3C/svg%3E");
+  pointer-events: none;
+}
+
+.track.step-indicator input[type='checkbox'] {
+  border-color: #b77a44;
+}
+
+.track.step-indicator input[type='checkbox'].onstep {
+  background-color: #ffa31e;
+  border-color: #614f2e;
+}
+
+input[type='checkbox']:nth-of-type(8n + 1).color-5 {
+  background-color: #c5a73473;
 }

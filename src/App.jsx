@@ -8,7 +8,7 @@ import Spinner from './components/Spinner'
 import Track from './components/Track'
 import createModal from './components/Modal'
 import patterns from './patterns'
-import { actions, setStore, store } from './store'
+import { TRACK_LENGTH, actions, setStore, store } from './store'
 import { load, storage } from './storage'
 
 import './App.css'
@@ -68,6 +68,8 @@ function App() {
 
   onMount(initApp)
   onCleanup(cleanup)
+
+  const stepArray = new Array(TRACK_LENGTH).fill(0)
 
   return (
     <>
@@ -168,6 +170,20 @@ function App() {
           </div>
         </div>
 
+        <Track class="track step-indicator">
+          <For each={stepArray}>
+            {(step, stepIndex) => {
+              return (
+                <input
+                  type="checkbox"
+                  checked={store.step === stepIndex()}
+                  class={`${store.step === stepIndex() ? 'onstep' : 'offstep'} color-5`}
+                />
+              )
+            }}
+          </For>
+        </Track>
+
         <For each={store.tracks}>
           {(track, trackIndex) => {
             return (
@@ -190,11 +206,10 @@ function App() {
                           )
                           return false
                         }}
-                        class={`${
-                          store.steps[trackIndex()] === tickIndex()
-                            ? 'onstep'
-                            : 'offstep'
-                        } color-${tick}`}
+                        class={`color-${tick}`}
+                        // class={`${
+                        //   store.step === tickIndex() ? 'onstep' : 'offstep'
+                        // } color-${tick}`}
                       />
                     )
                   }}

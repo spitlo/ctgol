@@ -53,7 +53,8 @@ const [store, setStore] = createStore({
   mutes: new Array(INSTRUMENT_AMOUNT).fill(false),
   playing: false,
   saved: true,
-  steps: new Array(TRACK_LENGTH).fill(0),
+  // steps: new Array(TRACK_LENGTH).fill(0),
+  step: 0,
   tracks,
 })
 
@@ -120,8 +121,8 @@ const checkCells = (startRow, endRow, evolve) => {
 }
 
 const loop = (time) => {
+  let step = index % 32
   for (let trackId = 0; trackId < store.tracks.length; trackId++) {
-    let step = index % 32
     const currentTrack = store.tracks[trackId]
     if (!store.mutes[trackId]) {
       if (currentTrack[step]) {
@@ -136,12 +137,12 @@ const loop = (time) => {
         }
       }
     }
-
-    // Update step indicator
-    Tone.Draw.schedule(() => {
-      setStore('steps', trackId, step)
-    }, time)
   }
+
+  // Update step indicator
+  Tone.Draw.schedule(() => {
+    setStore('step', step)
+  }, time)
 
   // Loop drums
   if (store.drumloop && index % 8 === 0) {
@@ -339,14 +340,14 @@ const toggleMute = (trackId) => {
 
 const saveStore = () => {
   Tone.getTransport().stop()
-  const steps = new Array(store.steps.length).fill(0)
+  // const steps = new Array(store.steps.length).fill(0)
   setStore(
     produce((store) => {
       store.initiated = false
       store.loading = true
       store.playing = false
       store.saved = true
-      store.steps = steps
+      store.step = 0
       store.createdWith = version
     })
   )
