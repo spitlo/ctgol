@@ -6,8 +6,9 @@ import './Track.css'
 const Track = (props) => {
   const { track, trackIndex } = props
 
-  const trackLetter = String.fromCharCode(trackIndex + 97)
-  const sampleName = trackIndex > -1 ? notes[trackIndex][1] : 'Step'
+  const trackLetter =
+    trackIndex > -1 ? String.fromCharCode(trackIndex + 97) : ''
+  const sampleName = trackIndex > -1 ? notes[trackIndex][1] : '<STEP>'
 
   return (
     <>

@@ -390,10 +390,10 @@ const reset = () => {
   location.href = '.'
 }
 
-const randomizeGrid = (chance = 0.8) => {
+const randomizeGrid = (chance = 0.15) => {
   for (let gy = 0; gy < INSTRUMENT_AMOUNT; gy++) {
     for (let gx = 0; gx < TRACK_LENGTH; gx++) {
-      nextTracks[gy][gx] = Math.random() < chance ? 0 : 1
+      nextTracks[gy][gx] = Math.random() > chance ? 0 : 1
     }
   }
 

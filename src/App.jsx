@@ -207,9 +207,6 @@ function App() {
                           return false
                         }}
                         class={`color-${tick}`}
-                        // class={`${
-                        //   store.step === tickIndex() ? 'onstep' : 'offstep'
-                        // } color-${tick}`}
                       />
                     )
                   }}
