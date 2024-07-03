@@ -25,7 +25,21 @@ const INSTRUMENT_AMOUNT = notes.length
 const TRACK_LENGTH = 32
 const VELOCITIES = [0.2, 0.4, 0.6, 0.7, 0.8, 0.9, 1]
 const DURATIONS = ['4n', '4n', '4n', '8n', '16n', '32n']
-const golWorker = new Worker()
+
+// Set up a worker, but only if browser supports it
+const USE_WORKER = !!window.Worker
+let golWorker
+if (USE_WORKER) {
+  golWorker = new Worker()
+  golWorker.onmessage = (event) => {
+    setStore(
+      produce((str) => {
+        str.tracks = event.data
+        str.generation = store.generation + 1
+      })
+    )
+  }
+}
 
 let index = 0
 
@@ -53,7 +67,6 @@ const [store, setStore] = createStore({
   mutes: new Array(INSTRUMENT_AMOUNT).fill(false),
   playing: false,
   saved: true,
-  // steps: new Array(TRACK_LENGTH).fill(0),
   step: 0,
   tracks,
 })
@@ -113,7 +126,7 @@ const checkCells = (startRow, endRow, evolve) => {
   if (evolve) {
     setStore(
       produce((str) => {
-        str.tracks = reconcile(nextTracks)
+        str.tracks = structuredClone(nextTracks)
         str.generation = store.generation + 1
       })
     )
@@ -149,59 +162,36 @@ const loop = (time) => {
     sampler.triggerAttackRelease('C2', '2n', time, 1)
   }
 
-  // Evolve grid. We do this in steps to spread the work a bit
-  // if (store.evolve) {
-  //   if (index % 4 === 0) {
-  //     Tone.Draw.schedule(() => {
-  //       checkCells(0, 6)
-  //     }, time)
-  //   } else if (index % 4 === 1) {
-  //     Tone.Draw.schedule(() => {
-  //       checkCells(
-  //         // Math.ceil(INSTRUMENT_AMOUNT / 4),
-  //         // Math.floor(INSTRUMENT_AMOUNT / 2)
-  //         6,
-  //         13
-  //       )
-  //     }, time)
-  //   } else if (index % 4 === 2) {
-  //     Tone.Draw.schedule(() => {
-  //       checkCells(
-  //         // Math.floor(INSTRUMENT_AMOUNT / 2),
-  //         // Math.floor(INSTRUMENT_AMOUNT / 4) * 3
-  //         13,
-  //         20
-  //       )
-  //     }, time)
-  //   } else if (index % 4 === 3) {
-  //     Tone.Draw.schedule(() => {
-  //       checkCells(
-  //         // Math.ceil(INSTRUMENT_AMOUNT / 4) * 3,
-  //         // INSTRUMENT_AMOUNT,
-  //         20,
-  //         26,
-  //         true
-  //       )
-  //     }, time)
-  //   }
-  // }
-
+  // Game of Life logic
   if (store.evolve) {
-    if (index % 4 === 0) {
-      golWorker.postMessage([0, 26, unwrap(store.tracks), nextTracks, true])
+    if (USE_WORKER) {
+      // Use a worker to evolve grid. Overkill?
+      if (index % 4 === 0) {
+        golWorker.postMessage([0, 26, unwrap(store.tracks), nextTracks, true])
+      }
+    } else {
+      // Evolve grid without worker. We do this in steps to spread the work a bit. Overkill-er?
+      if (index % 4 === 0) {
+        Tone.Draw.schedule(() => {
+          checkCells(0, 6)
+        }, time)
+      } else if (index % 4 === 1) {
+        Tone.Draw.schedule(() => {
+          checkCells(6, 13)
+        }, time)
+      } else if (index % 4 === 2) {
+        Tone.Draw.schedule(() => {
+          checkCells(13, 20)
+        }, time)
+      } else if (index % 4 === 3) {
+        Tone.Draw.schedule(() => {
+          checkCells(20, 26, true)
+        }, time)
+      }
     }
   }
 
   index++
-}
-
-golWorker.onmessage = (event) => {
-  setStore(
-    produce((str) => {
-      str.tracks = event.data
-      str.generation = store.generation + 1
-    })
-  )
 }
 
 const toggleTick = (trackId, tickId, force) => {
