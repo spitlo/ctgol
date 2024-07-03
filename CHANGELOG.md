@@ -2,6 +2,13 @@
 
 This changelog is automatically generated.
 
+## v0.1.0
+
+- Only use a worker if browser supports it [`f6b656c`](../../commit/f6b656c1b538492a7022cb7782ba25632cc26f60)
+- Fix chance. Cleanup [`3fdde0c`](../../commit/3fdde0c8e671c904fd364d3a76b22b35e9d0b9cd)
+- Move step indicator to separate track to minimize lag. Simplify step logic [`2247326`](../../commit/22473262aede486e98b1dda6625fc7ad5644a5e2)
+- Add worker to possibly improve performance [`1bc198c`](../../commit/1bc198c56e8904e4101489a6ada6b3586747ac0a)
+
 ## v0.0.8
 
 - Spelling [`85304a3`](../../commit/85304a32820aa8aed0d7101cf893ca9f4a33cab1)
