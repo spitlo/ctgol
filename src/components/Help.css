@@ -24,7 +24,7 @@ code {
   vertical-align: text-top;
 }
 
-details {
+details summary {
   text-transform: uppercase;
   color: var(--pico-h2-color);
 }
