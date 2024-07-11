@@ -2,6 +2,10 @@
 
 This changelog is automatically generated.
 
+## v0.1.1
+
+- Don’t scream help [`34b0733`](../../commit/34b0733d53fefcbc11cd2c3d7c12f1cf0c54e084)
+
 ## v0.1.0
 
 - Only use a worker if browser supports it [`f6b656c`](../../commit/f6b656c1b538492a7022cb7782ba25632cc26f60)
