@@ -330,7 +330,6 @@ const toggleMute = (trackId) => {
 
 const saveStore = () => {
   Tone.getTransport().stop()
-  // const steps = new Array(store.steps.length).fill(0)
   setStore(
     produce((store) => {
       store.initiated = false
@@ -343,6 +342,7 @@ const saveStore = () => {
   )
   stash(store)
   save()
+  setStore('loading', false)
 }
 
 const initAndPlay = async () => {
