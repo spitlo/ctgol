@@ -2,6 +2,11 @@
 
 This changelog is automatically generated.
 
+## v0.1.2
+
+- Kill spinner after save [`7b33cd0`](../../commit/7b33cd0a5a17fddbf733b5fde130e02291ec7b80)
+- Improve help [`e36799c`](../../commit/e36799ca1deb4477adeaae2dfe02fe731ab0e7b0)
+
 ## v0.1.1
 
 - Don’t scream help [`34b0733`](../../commit/34b0733d53fefcbc11cd2c3d7c12f1cf0c54e084)
