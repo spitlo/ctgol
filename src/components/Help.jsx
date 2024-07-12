@@ -50,17 +50,17 @@ const Help = () => {
       <hr />
 
       <details>
-        <summary>Placing ticks</summary>
+        <summary>Adding cells</summary>
         <p>
-          To help you place ticks faster, there are some keyboard modifiers. If
-          you press <code>alt</code>/<code>option</code> while painting a pixel,
+          To help you add cells faster, there are some keyboard modifiers. If
+          you press <code>alt</code>/<code>option</code> while adding a cell,
           you will get a horizontal line. If you press <code>shift</code> while
-          painting a pixel, you will get a vertical line. Lines extend through
-          all active ticks, so you can put a start and end tick and the line
-          will cover the area between them. If you hold down
+          adding a cell, you will get a vertical line. Lines extend through all
+          active cells, so you can put a start and end cell and the line will
+          cover the area between them. If you hold down
           <code>windows</code>/<code>command</code>/<code>meta</code> (depending
-          on your OS) as well while painting a line, the line will only paint
-          every other tick.
+          on your OS) as well while adding a line, the line will only add every
+          other cell.
         </p>
       </details>
 
@@ -69,8 +69,8 @@ const Help = () => {
       <details>
         <summary>Sounds</summary>
         <p>
-          Each track (line) represents a specific sound. Each tick on that track
-          will trigger the sound to be played.
+          Each track (X axis) represents a specific sound. Each cell on that
+          track will trigger the sound to be played.
         </p>
         <p>
           You can use keys <code>a</code>-<code>z</code> to mute tracks. The
@@ -112,11 +112,11 @@ const Help = () => {
 
         <p>
           Some shapes have special properties. For example, a square made up of
-          four ticks will not change and not die, as long as no other shape
-          collides with it. And a line made up of three ticks will oscillate
-          between horizontal or vertical. For some inspiration and more
-          examples, check out the patterns "Beat 1", "Beat 2", "Survivors" and
-          "Spaceships". <i class="emoticon elims" />
+          four cells will not change and not die, as long as no other shape
+          collides with it. And a line made up of three vertical or horizontal
+          cells will oscillate between horizontal or vertical. For some
+          inspiration and more examples, check out the patterns "Beat 1", "Beat
+          2", "Survivors" and "Spaceships". <i class="emoticon elims" />
         </p>
       </details>
 
@@ -127,7 +127,7 @@ const Help = () => {
         <p>
           Save works OK but I wouldn’t trust it with my life. It saves the
           current state of your composition in the URL, just copy it from the
-          address bar to share it.
+          address bar to share it. Or click COPY in the SAVE dialog box.
         </p>
         <p>
           If you don’t get any sound when you press PLAY, try hitting SAVE and
@@ -222,6 +222,14 @@ const Help = () => {
             rel="noopener noreferrer"
           >
             Solid
+          </a>{' '}
+          and{' '}
+          <a
+            href="https://primitives.solidjs.community/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Solid Primitives
           </a>
         </p>
         <p>
